@@ -106,29 +106,21 @@ config = {
     'name': u'timestamp_weekend',
     'type': 'DateEncoder',
     'weekend': 21},
-  u'hourly_traffic_count1':     {   'clipInput': True,
-    'fieldname': u'hourly_traffic_count1',
-    'maxval': 5800.0,
-    'minval': 500.0,
+  u'hourly_traffic_count':     {   'clipInput': True,
+    'fieldname': u'hourly_traffic_count',
+    'maxval': 5276,
+    'minval': 109,
     'n': 100,
-    'name': u'hourly_traffic_count1',
+    'name': u'hourly_traffic_count',
     'type': 'ScalarEncoder',
     'w': 21},
   '_classifierInput':     {   'classifierOnly': True,
     'clipInput': True,
-    'fieldname': u'hourly_traffic_count1',
-    'maxval': 5800.0,
-    'minval': 500.0,
+    'fieldname': u'hourly_traffic_count',
+    'maxval': 5276,
+    'minval': 109,
     'n': 100,
     'name': '_classifierInput',
-    'type': 'ScalarEncoder',
-    'w': 21},
-  u'hourly_traffic_count2':     {   'clipInput': True,
-    'fieldname': u'hourly_traffic_count2',
-    'maxval': 1300.0,
-    'minval': 20.0,
-    'n': 100,
-    'name': u'hourly_traffic_count2',
     'type': 'ScalarEncoder',
     'w': 21},
             },
@@ -325,10 +317,10 @@ control = {
 
   # Input stream specification per py/nupic/frameworks/opf/jsonschema/stream_def.json.
   #
-  'dataset' : {   u'info': u'hourly_traffic_count1',
+  'dataset' : {   u'info': u'hourly_traffic_count',
         u'streams': [   {   u'columns': [u'*'],
                             u'info': u'Traffic Data',
-                            u'source': u'file://cleanTrafficData2.csv'}],
+                            u'source': u'file://cleanTrafficData.csv'}],
         u'version': 1},
 
   # Iteration count: maximum number of iterations.  Each iteration corresponds
@@ -343,14 +335,14 @@ control = {
 
   # A dictionary containing all the supplementary parameters for inference
   "inferenceArgs":{u'inputPredictedField': 'auto',
- u'predictedField': u'hourly_traffic_count1',
+ u'predictedField': u'hourly_traffic_count',
  u'predictionSteps': [1]},
 
   # Metrics: A list of MetricSpecs that instantiate the metrics that are
   # computed for this experiment
   'metrics':[
-    MetricSpec(field=u'hourly_traffic_count1', metric='multiStep', inferenceElement='multiStepBestPredictions', params={'window': 1000, 'steps': [1], 'errorMetric': 'aae'}),
-    MetricSpec(field=u'hourly_traffic_count1', metric='multiStep', inferenceElement='multiStepBestPredictions', params={'window': 1000, 'steps': [1], 'errorMetric': 'altMAPE'})
+    MetricSpec(field=u'hourly_traffic_count', metric='multiStep', inferenceElement='multiStepBestPredictions', params={'window': 1000, 'steps': [1], 'errorMetric': 'aae'}),
+    MetricSpec(field=u'hourly_traffic_count', metric='multiStep', inferenceElement='multiStepBestPredictions', params={'window': 1000, 'steps': [1], 'errorMetric': 'altMAPE'})
   ],
 
   # Logged Metrics: A sequence of regular expressions that specify which of

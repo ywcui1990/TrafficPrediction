@@ -23,13 +23,13 @@
 Groups together the code dealing with swarming.
 (This is a component of the One Hot Gym Prediction Tutorial.)
 """
-import os
+import os, sys
 import pprint
 
 from nupic.swarming import permutations_runner
 from swarm_description import SWARM_DESCRIPTION
+import pandas as pd
 
-INPUT_FILE = "cleanTrafficData.csv"
 DESCRIPTION = (
   "This script runs a swarm on the input data (cleanTrafficData.csv) and\n"
   "creates a model parameters file in the `model_params` directory containing\n"
@@ -93,13 +93,26 @@ def swarm(filePath):
   print "================================================="
   print "= Swarming on %s data..." % name
   printSwarmSizeWarning(SWARM_DESCRIPTION["swarmSize"])
+
+  data = pd.read_csv(filePath, skiprows=2)
+  maxVal = data.max()['Unnamed: 1']
+  minVal = data.min()['Unnamed: 1']
+
+  SWARM_DESCRIPTION['includedFields'][1]['minValue'] = minVal
+  SWARM_DESCRIPTION['includedFields'][1]['maxValue'] = maxVal
+
   print "================================================="
   modelParams = swarmForBestModelParams(SWARM_DESCRIPTION, name)
   print "\nWrote the following model param files:"
   print "\t%s" % modelParams
 
 
-
 if __name__ == "__main__":
-  print DESCRIPTION
+  args = sys.argv[1:]
+  if len(args)>0:
+    INPUT_FILE = args[0]
+  else:
+    INPUT_FILE = "./data/cleanTrafficData10003.csv"
+
+  # print DESCRIPTION
   swarm(INPUT_FILE)

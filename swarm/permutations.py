@@ -34,7 +34,7 @@ from nupic.swarming.permutationhelpers import *
 # The name of the field being predicted.  Any allowed permutation MUST contain
 # the prediction field.
 # (generated from PREDICTION_FIELD)
-predictedField = 'hourly_traffic_count1'
+predictedField = 'hourly_traffic_count'
 
 
 
@@ -59,9 +59,8 @@ permutations = {
           u'timestamp_timeOfDay': PermuteEncoder(fieldName='timestamp', encoderClass='DateEncoder.timeOfDay', radius=PermuteFloat(0.5, 12), w=21, ),
   u'timestamp_dayOfWeek': PermuteEncoder(encoderClass='DateEncoder.dayOfWeek', radius=PermuteFloat(1, 6), w=21, fieldName='timestamp', ),
   u'timestamp_weekend': PermuteEncoder(encoderClass='DateEncoder.weekend', radius=PermuteChoices([1]),  w=21, fieldName='timestamp', ),
-  u'hourly_traffic_count1': PermuteEncoder(maxval=5800.0, fieldName='hourly_traffic_count1', w=21, clipInput=True, minval=500.0, encoderClass='ScalarEncoder', n=PermuteInt(22, 521), ),
-  '_classifierInput': dict(maxval=5800.0, classifierOnly=True, clipInput=True, minval=500.0, n=PermuteInt(28, 521), fieldname='hourly_traffic_count1', w=21, type='ScalarEncoder', ),
-  u'hourly_traffic_count2': PermuteEncoder(maxval=1300.0, fieldName='hourly_traffic_count2', w=21, clipInput=True, minval=20.0, encoderClass='ScalarEncoder', n=PermuteInt(22, 521), ),
+  u'hourly_traffic_count': PermuteEncoder(maxval=5276, fieldName='hourly_traffic_count', w=21, clipInput=True, minval=109, encoderClass='ScalarEncoder', n=PermuteInt(22, 521), ),
+  '_classifierInput': dict(maxval=5276, classifierOnly=True, clipInput=True, minval=109, n=PermuteInt(28, 521), fieldname='hourly_traffic_count', w=21, type='ScalarEncoder', ),
       },
     },
 
@@ -90,15 +89,15 @@ permutations = {
 #       report generator
 # (fieldname values generated from PERM_PREDICTED_FIELD_NAME)
 report = [
-          '.*hourly_traffic_count1.*',
+          '.*hourly_traffic_count.*',
          ]
 
 # Permutation optimization setting: either minimize or maximize metric
 # used by RunPermutations.
 # NOTE: The value is used as a regular expressions by RunPermutations.py's
 #       report generator
-# (generated from minimize = "multiStepBestPredictions:multiStep:errorMetric='altMAPE':steps=\[1\]:window=1000:field=hourly_traffic_count1")
-minimize = "multiStepBestPredictions:multiStep:errorMetric='altMAPE':steps=\[1\]:window=1000:field=hourly_traffic_count1"
+# (generated from minimize = "multiStepBestPredictions:multiStep:errorMetric='altMAPE':steps=\[1\]:window=1000:field=hourly_traffic_count")
+minimize = "multiStepBestPredictions:multiStep:errorMetric='altMAPE':steps=\[1\]:window=1000:field=hourly_traffic_count"
 
 minParticlesPerSwarm = 5
 
