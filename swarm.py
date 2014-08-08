@@ -60,7 +60,7 @@ def writeModelParamsToFile(modelParams, name):
 
 
 
-def swarmForBestModelParams(swarmConfig, name, maxWorkers=6):
+def swarmForBestModelParams(swarmConfig, name, maxWorkers=10):
   outputLabel = name
   permWorkDir = os.path.abspath('swarm')
   if not os.path.exists(permWorkDir):

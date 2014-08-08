@@ -1,2 +1,2 @@
 modelParams|clParams|alpha,modelParams|sensorParams|encoders|_classifierInput|n,modelParams|sensorParams|encoders|hourly_traffic_count:n,modelParams|sensorParams|encoders|timestamp_dayOfWeek:radius,modelParams|sensorParams|encoders|timestamp_timeOfDay:radius,modelParams|spParams|synPermInactiveDec,modelParams|tpParams|activationThreshold,modelParams|tpParams|minThreshold,modelParams|tpParams|pamLength
-0.0001,28,81,4.709411339023378,1.7843509479455801,0.1,13,9,1
+0.0001,33,118,6,5.657675158412203,0.09994522481980617,12,9,1

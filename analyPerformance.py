@@ -17,7 +17,20 @@ def calculateErrorRate(measured, predicted):
 	return errorRate
 
 
-fileName = "cleanTrafficData10009_out.csv"
+from os import listdir
+from os.path import isfile, join
+
+import run
+
+datapath = './'
+datafiles = [ f for f in listdir(datapath) if isfile(join(datapath,f)) ]
+datafiles = datafiles[1:]
+
+for i in range(len(datafiles)):
+	if datafiles[i][-8:] == '_out.csv' and datafiles[i][:5]=='clean':		
+		print datafiles[i]
+
+fileName = "cleanTrafficData10012_out.csv"
 csvfile = open(fileName)
 csvreader = csv.reader(csvfile, delimiter=',')
 headline = csvreader.next()
@@ -78,4 +91,4 @@ ax = plt.subplot(111)
 ind = np.arange(len(ErrorRates))
 ax.bar(ind, ErrorRates, color='k')
 ax.set_xticks(ind+width)
-ax.set_xticklabels( ('Day Avg', 'Naive Shift','Day-Week Avg', 'CLA') )
+ax.set_xticklabels( ('Naive Shifter', 'Day Avg','Day-Week Avg', 'CLA') )
