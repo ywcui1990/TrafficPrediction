@@ -6,5 +6,5 @@ datapath = './data/'
 datafiles = [ f for f in listdir(datapath) if isfile(join(datapath,f)) ]
 datafiles = datafiles[1:]
 
-for i in range(14,len(datafiles)):
+for i in range(len(datafiles)):
 	swarm.swarm(datapath + datafiles[i])

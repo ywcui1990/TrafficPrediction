@@ -35,7 +35,7 @@ from nupic.frameworks.opf.expdescriptionhelpers import importBaseDescription
 # the sub-experiment configuration
 config ={
   'aggregationInfo' : {'seconds': 0, 'fields': [], 'months': 0, 'days': 0, 'years': 0, 'hours': 0, 'microseconds': 0, 'weeks': 0, 'minutes': 0, 'milliseconds': 0},
-  'modelParams' : {'sensorParams': {'encoders': {'_classifierInput': {'maxval': 849, 'classifierOnly': True, 'minval': 0, 'clipInput': True, 'n': 275, 'fieldname': 'hourly_traffic_count', 'w': 21, 'type': 'ScalarEncoder'}, u'timestamp_dayOfWeek': {'dayOfWeek': (21, 3.5), 'name': 'timestamp', 'fieldname': 'timestamp', 'type': 'DateEncoder'}, u'timestamp_timeOfDay': None, u'hourly_traffic_count': None, u'timestamp_weekend': None}}, 'spParams': {'synPermInactiveDec': 0.05015}, 'tpParams': {'minThreshold': 11, 'activationThreshold': 14, 'pamLength': 3}, 'clParams': {'alpha': 0.050050000000000004}},
+  'modelParams' : {'sensorParams': {'encoders': {'_classifierInput': {'maxval': 5276, 'classifierOnly': True, 'minval': 109, 'clipInput': True, 'n': 28, 'fieldname': 'hourly_traffic_count', 'w': 21, 'type': 'ScalarEncoder'}, u'timestamp_dayOfWeek': {'dayOfWeek': (21, 4.709411339023378), 'name': 'timestamp', 'fieldname': 'timestamp', 'type': 'DateEncoder'}, u'timestamp_timeOfDay': {'name': 'timestamp', 'fieldname': 'timestamp', 'timeOfDay': (21, 1.7843509479455801), 'type': 'DateEncoder'}, u'hourly_traffic_count': {'maxval': 5276, 'name': 'hourly_traffic_count', 'clipInput': True, 'minval': 109, 'n': 81, 'fieldname': 'hourly_traffic_count', 'w': 21, 'type': 'ScalarEncoder'}, u'timestamp_weekend': None}}, 'spParams': {'synPermInactiveDec': 0.1}, 'tpParams': {'minThreshold': 9, 'activationThreshold': 13, 'pamLength': 1}, 'clParams': {'alpha': 0.0001}},
 
 }
 
