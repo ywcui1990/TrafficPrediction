@@ -17,7 +17,7 @@ def calculateErrorRate(measured, predicted):
 	return errorRate
 
 
-fileName = "cleanTrafficData_out.csv"
+fileName = "cleanTrafficData10009_out.csv"
 csvfile = open(fileName)
 csvreader = csv.reader(csvfile, delimiter=',')
 headline = csvreader.next()

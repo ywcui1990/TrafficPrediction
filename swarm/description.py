@@ -320,7 +320,7 @@ control = {
   'dataset' : {   u'info': u'hourly_traffic_count',
         u'streams': [   {   u'columns': [u'*'],
                             u'info': u'Traffic Data',
-                            u'source': u'file://cleanTrafficData.csv'}],
+                            u'source': u'file://./data/cleanTrafficData10003.csv'}],
         u'version': 1},
 
   # Iteration count: maximum number of iterations.  Each iteration corresponds

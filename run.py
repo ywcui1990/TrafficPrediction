@@ -43,7 +43,7 @@ DESCRIPTION = (
   "are required to run NuPIC.\n"
 )
 DATA_NAME = "cleanTrafficData"
-DATA_DIR = "."
+DATA_DIR = "./data/"
 MODEL_PARAMS_DIR = "./model_params"
 
 # 2011-01-12 01:00:00
@@ -120,6 +120,12 @@ if __name__ == "__main__":
   print DESCRIPTION
   plot = False
   args = sys.argv[1:]
+
+  if len(args)>0:
+    DATA_NAME = args[0]
+  else:
+    DATA_NAME = "cleanTrafficData"
+
   if "--plot" in args:
     plot = True
   runModel(DATA_NAME, plot=plot)

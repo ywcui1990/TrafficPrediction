@@ -38,7 +38,7 @@ SWARM_DESCRIPTION = {
     "streams": [
       {
         "info": "Traffic Data",
-        "source": "file://cleanTrafficData.csv",
+        "source": "file://data/cleanTrafficData10003.csv",
         "columns": [
           "*"
         ]

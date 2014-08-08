@@ -93,14 +93,18 @@ def swarm(filePath):
   print "================================================="
   print "= Swarming on %s data..." % name
   printSwarmSizeWarning(SWARM_DESCRIPTION["swarmSize"])
-
+  print " Read Input File: ", filePath
   data = pd.read_csv(filePath, skiprows=2)
   maxVal = data.max()['Unnamed: 1']
   minVal = data.min()['Unnamed: 1']
+  print " Min = ", minVal, " Max = ", maxVal
 
   SWARM_DESCRIPTION['includedFields'][1]['minValue'] = minVal
   SWARM_DESCRIPTION['includedFields'][1]['maxValue'] = maxVal
+  SWARM_DESCRIPTION['streamDef']['streams'][0]['source'] = \
+    'file://' + filePath
 
+  print SWARM_DESCRIPTION
   print "================================================="
   modelParams = swarmForBestModelParams(SWARM_DESCRIPTION, name)
   print "\nWrote the following model param files:"

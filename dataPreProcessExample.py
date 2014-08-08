@@ -18,94 +18,68 @@ csvfile.close()
 
 print " Read in data "
 # parse date while reading the data (takes a while)
-dateparse = lambda x: pd.datetime.strptime(x, '%m/%d/%Y %H:%M')
-df = pd.read_csv(fileName, parse_dates=['Start_Time'], date_parser=dateparse)
-# df = pd.read_csv(fileName)
+# dateparse = lambda x: pd.datetime.strptime(x, '%m/%d/%Y %H:%M')
+# df = pd.read_csv(fileName, parse_dates=['Start_Time'], date_parser=dateparse)
+df = pd.read_csv(fileName)
+df['Start_Time'] = pd.to_datetime(df['Start_Time'])
 
-# print " Convert to datetime type"
-# df['Start_Time'] = pd.to_datetime(df['Start_Time'])
 
 stationList = pd.unique(df['RCStation'])
+# generate clean data for good monitoring stations
+stationChosen = stationList[0]
 
 # extract day of the year 
 getDayOfYear = lambda x: x.dayofyear
 
-# calculate number of days and data points per monitoring station
-dataPerStation = []
-numDayPerStation = []
+dfSelect = df[df['RCStation']==stationChosen]
+dfSelect['Start_Time'] = pd.to_datetime(dfSelect['Start_Time'])
+date = dfSelect['Start_Time']
+numDays = len(pd.unique(date.apply(getDayOfYear)))
+dfSelect=dfSelect.set_index(date)
 
-for station in stationList:
-	
-	dfSelect = df[df['RCStation']==station]
-	date = dfSelect['Start_Time']
+dfSelect = dfSelect.drop('RCStation',axis=1)
 
-	dataPerStation.append(len(dfSelect))
-	numDayPerStation.append(len(pd.unique(date.apply(getDayOfYear))))
+allDirections = pd.unique(dfSelect['Direction'])
+dfSelect = dfSelect[dfSelect['Direction']==allDirections[0]]
+dfSelect = dfSelect.drop('Direction',axis=1)
 
-	print station, dataPerStation[len(dataPerStation)-1],\
-				numDayPerStation[len(numDayPerStation)-1]
+# aggregate all lanes, generate a time series object
+grouped = dfSelect['Count'].groupby(dfSelect['Start_Time'])
+ts = grouped.sum()
 
-dataPerStation = np.array(dataPerStation)
-numDayPerStation = np.array(numDayPerStation)
+# check interval
+segStart = ts.index[0]
+SegList = []
+segLength = []
+badData = False
 
+for i in range(len(ts)-1):
+	delta = ts.index[i+1] - ts.index[i]
+	intv = delta.total_seconds()
 
+	if intv>3600 :
+		segEnd = ts.index[i]
+		newSegLength = (segEnd - segStart).total_seconds()
+		print segStart, segEnd, newSegLength
+		SegList.append([segStart, segEnd])
+		segLength.append(newSegLength)
+		segStart = ts.index[i+1]
 
-# generate clean data for good monitoring stations
-goodStations = stationList[np.where(numDayPerStation > 300)[0]]
+longSeg = np.argmax(np.array(segLength))
+cleanData = ts[SegList[longSeg][0]:SegList[longSeg][1]]
 
-for stationChosen in goodStations:
-	
-	dfSelect = df[df['RCStation']==stationChosen]
-	dfSelect['Start_Time'] = pd.to_datetime(dfSelect['Start_Time'])
-	date = dfSelect['Start_Time']
-	numDays = len(pd.unique(date.apply(getDayOfYear)))
-	dfSelect=dfSelect.set_index(date)
+if badData==False:
+	# write cleaned data to file
+	fileName = 'data/cleanTrafficData' + str(stationChosen) +'.csv'
+	outfile = open(fileName,'w')
+	a = csv.writer(outfile)
+	data = [['timestamp', 'hourly_traffic_count'],
+	        ['datetime', 'float'],
+	        ['T', '']]
+	a.writerows(data)
 
-	dfSelect = dfSelect.drop('RCStation',axis=1)
-
-	allDirections = pd.unique(dfSelect['Direction'])
-	dfSelect = dfSelect[dfSelect['Direction']==allDirections[0]]
-	dfSelect = dfSelect.drop('Direction',axis=1)
-
-	# aggregate all lanes, generate a time series object
-	grouped = dfSelect['Count'].groupby(dfSelect['Start_Time'])
-	ts = grouped.sum()
-
-	# check interval
-	segStart = ts.index[0]
-	SegList = []
-	segLength = []
-	badData = False
-
-	for i in range(len(ts)-1):
-		delta = ts.index[i+1] - ts.index[i]
-		intv = delta.total_seconds()
-		
-		if intv<3000 :
-			badData = True
-		if intv>3600 :
-			segEnd = ts.index[i]
-			newSegLength = (segEnd - segStart).total_seconds()
-			print segStart, segEnd, newSegLength
-			SegList.append([segStart, segEnd])
-			segLength.append(newSegLength)
-			segStart = ts.index[i+1]
-
-	longSeg = np.argmax(np.array(segLength))
-	cleanData = ts[SegList[longSeg][0]:SegList[longSeg][1]]
-
-	if badData==False:
-		# write cleaned data to file
-		fileName = 'data/cleanTrafficData' + str(stationChosen) +'.csv'
-		outfile = open(fileName,'w')
-		a = csv.writer(outfile)
-		data = [['timestamp', 'hourly_traffic_count'],
-		        ['datetime', 'float'],
-		        ['T', '']]
-		a.writerows(data)
-
-		cleanData.to_csv(outfile)
-		outfile.close()
+	cleanData.to_csv(outfile)
+	outfile.close()
 
 plt.figure()
 cleanData.plot()
