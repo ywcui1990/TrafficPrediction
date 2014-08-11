@@ -20,6 +20,10 @@
 # http://numenta.org/licenses/
 # ----------------------------------------------------------------------
 
+'''
+This script runs through models for all models in ./model/params/
+folder
+'''
 from os import listdir
 from os.path import isfile, join
 

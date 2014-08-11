@@ -1,14 +1,41 @@
-# This script will download traffic data from Department of Transportation
-# of the New York State
+#!/usr/bin/env python
+# ----------------------------------------------------------------------
+# Numenta Platform for Intelligent Computing (NuPIC)
+# Copyright (C) 2013, Numenta, Inc.  Unless you have an agreement
+# with Numenta, Inc., for a separate license for this software code, the
+# following terms and conditions apply:
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3 as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see http://www.gnu.org/licenses.
+#
+# http://numenta.org/licenses/
+# ----------------------------------------------------------------------
 
-# https://www.dot.ny.gov/divisions/engineering/technical-services/highway-data-services/hdsb
+'''
+This script will download traffic data from Department of Transportation
+of the New York State
+After running the script, the data will be located in './data/VOL_2011.zip'
+
+You may also download the data manually from this page
+https://www.dot.ny.gov/divisions/engineering/technical-services/highway-data-services/hdsb
+'''
 
 import urllib2
+import zipfile
 
 if __name__ == "__main__":
 	
 	url = "https://www.dot.ny.gov/divisions/engineering/technical-services/highway-data-services/hdsb/repository/VOL_2011.zip"
-	# url = "https://www.dot.ny.gov/divisions/engineering/technical-services/highway-data-services/hdsb/repository/New_York_VOL_2011.csv"
+
 	# open url
 	u = urllib2.urlopen(url)
 
@@ -35,5 +62,6 @@ if __name__ == "__main__":
 
 	f.close()
 
-# if __name__ == "__main__":
-# 	downloadData()
+	# extract zip file
+	with zipfile.ZipFile('./data/VOL_2011.zip', 'r') as zfile:
+	    zfile.extractall('./data')

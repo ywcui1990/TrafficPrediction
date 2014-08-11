@@ -1,3 +1,31 @@
+#!/usr/bin/env python
+# ----------------------------------------------------------------------
+# Numenta Platform for Intelligent Computing (NuPIC)
+# Copyright (C) 2013, Numenta, Inc.  Unless you have an agreement
+# with Numenta, Inc., for a separate license for this software code, the
+# following terms and conditions apply:
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3 as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see http://www.gnu.org/licenses.
+#
+# http://numenta.org/licenses/
+# ----------------------------------------------------------------------
+
+'''
+This script reads in the raw traffic count data, select stations with
+enough consecutive records, and save the processed data to ./data/ 
+with one file per each monitoring station
+
+'''
 import pandas as pd 
 import numpy as np
 from pandas import DataFrame, Series
@@ -9,24 +37,23 @@ from pylab import *
 if isinteractive() is not True:
   ion()
 
-# fileName = 'data/New_York_VOL_2011.csv'
+# path to the data file
 fileName = 'data/VOL_2011.csv'
 csvfile = open(fileName)
 csvreader = csv.reader(csvfile, delimiter=',')
 headline = csvreader.next()
 csvfile.close()
 
-print " Read in data "
-# parse date while reading the data (takes a while)
-# dateparse = lambda x: pd.datetime.strptime(x, '%m/%d/%Y %H:%M')
-# df = pd.read_csv(fileName, parse_dates=['Start_Time'], date_parser=dateparse)
-df = pd.read_csv(fileName)
-df['Start_Time'] = pd.to_datetime(df['Start_Time'])
+print " Read in data, sit back and relax"
 
+# parse date while reading the data (this can takes a while)
+dateparse = lambda x: pd.datetime.strptime(x, '%m/%d/%Y %H:%M')
+df = pd.read_csv(fileName, parse_dates=['Start_Time'], date_parser=dateparse)
 
 stationList = pd.unique(df['RCStation'])
 # generate clean data for good monitoring stations
 stationChosen = stationList[0]
+
 
 # extract day of the year 
 getDayOfYear = lambda x: x.dayofyear
@@ -85,15 +112,6 @@ plt.figure()
 cleanData.plot()
 plt.ylabel('Traffic Volumn (Hourly Count)')
 
-
-
-
-
-
-# fileName = 'cleanTrafficData.csv'
-# csvfile = open(fileName)
-# csvreader = csv.reader(csvfile, delimiter=',')
-# headline = csvreader.next()
 
 
 
