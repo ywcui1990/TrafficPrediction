@@ -4,9 +4,9 @@ The program in this folder used the Cortical Learning Algorithm (CLA) in the Num
 
 ## Requirements
 
-*NuPIC
-*pandas (for data cleaning)
-*matplotlib (for exploratory data analysis)
+⋅⋅*[NuPIC](https://github.com/numenta/nupic/wiki)
+⋅⋅*pandas (for data cleaning)
+⋅⋅*matplotlib (for exploratory data analysis)
 
 ## Program Phases
 
