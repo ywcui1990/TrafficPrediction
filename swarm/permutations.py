@@ -59,8 +59,8 @@ permutations = {
           u'timestamp_timeOfDay': PermuteEncoder(fieldName='timestamp', encoderClass='DateEncoder.timeOfDay', radius=PermuteFloat(0.5, 12), w=21, ),
   u'timestamp_dayOfWeek': PermuteEncoder(encoderClass='DateEncoder.dayOfWeek', radius=PermuteFloat(1, 6), w=21, fieldName='timestamp', ),
   u'timestamp_weekend': PermuteEncoder(encoderClass='DateEncoder.weekend', radius=PermuteChoices([1]),  w=21, fieldName='timestamp', ),
-  u'hourly_traffic_count': PermuteEncoder(maxval=521, fieldName='hourly_traffic_count', w=21, clipInput=True, minval=1, encoderClass='ScalarEncoder', n=PermuteInt(22, 521), ),
-  '_classifierInput': dict(maxval=521, classifierOnly=True, clipInput=True, minval=1, n=PermuteInt(28, 521), fieldname='hourly_traffic_count', w=21, type='ScalarEncoder', ),
+  u'hourly_traffic_count': PermuteEncoder(maxval=9437, fieldName='hourly_traffic_count', w=21, clipInput=True, minval=30, encoderClass='ScalarEncoder', n=PermuteInt(22, 521), ),
+  '_classifierInput': dict(maxval=9437, classifierOnly=True, clipInput=True, minval=30, n=PermuteInt(28, 521), fieldname='hourly_traffic_count', w=21, type='ScalarEncoder', ),
       },
     },
 
