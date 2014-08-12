@@ -21,7 +21,8 @@
 """
 Provides two classes with the same signature for writing data out of NuPIC
 models.
-(This is a component of the One Hot Gym Prediction Tutorial.)
+(This script is modified from nupic_output.py file in the One Hot Gym 
+  Prediction Tutorial of NuPIC)
 """
 import csv
 from collections import deque
@@ -69,10 +70,10 @@ class NuPICFileOutput(NuPICOutput):
     self.outputFiles = []
     self.outputWriters = []
     self.lineCounts = []
-    headerRow = ['timestamp', 'kw_energy_consumption', 'prediction']
+    headerRow = ['timestamp', 'traffic_volume', 'prediction']
     for name in self.names:
       self.lineCounts.append(0)
-      outputFileName = "%s_out.csv" % name
+      outputFileName = "./prediction/"+"%s_out.csv" % name
       print "Preparing to output %s data to %s" % (name, outputFileName)
       outputFile = open(outputFileName, "w")
       self.outputFiles.append(outputFile)
@@ -129,7 +130,7 @@ class NuPICPlotOutput(NuPICOutput):
     for index in range(len(self.names)):
       self.graphs.append(fig.add_subplot(gs[index, 0]))
       plt.title(self.names[index])
-      plt.ylabel('KW Energy Consumption')
+      plt.ylabel('Traffic Volume (count/hour)')
       plt.xlabel('Date')
     plt.tight_layout()
 

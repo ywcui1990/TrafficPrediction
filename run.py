@@ -57,21 +57,21 @@ def createModel(modelParams):
 
 
 
-def getModelParamsFromName(gymName):
+def getModelParamsFromName(roadName):
   importName = "model_params.%s_model_params" % (
-    gymName.replace(" ", "_").replace("-", "_")
+    roadName.replace(" ", "_").replace("-", "_")
   )
   print "Importing model params from %s" % importName
   try:
     importedModelParams = importlib.import_module(importName).MODEL_PARAMS
   except ImportError:
     raise Exception("No model params exist for '%s'. Run swarm first!"
-                    % gymName)
+                    % roadName)
   return importedModelParams
 
 
 
-def runIoThroughNupic(inputData, model, gymName, plot):
+def runIoThroughNupic(inputData, model, roadName, plot):
   inputFile = open(inputData, "rb")
   csvReader = csv.reader(inputFile)
   # skip header rows
@@ -81,9 +81,9 @@ def runIoThroughNupic(inputData, model, gymName, plot):
 
   shifter = InferenceShifter()
   if plot:
-    output = nupic_output.NuPICPlotOutput([gymName])
+    output = nupic_output.NuPICPlotOutput([roadName])
   else:
-    output = nupic_output.NuPICFileOutput([gymName])
+    output = nupic_output.NuPICFileOutput([roadName])
 
   counter = 0
   for row in csvReader:
@@ -108,11 +108,11 @@ def runIoThroughNupic(inputData, model, gymName, plot):
 
 
 
-def runModel(gymName, plot=False):
-  print "Creating model from %s..." % gymName
-  model = createModel(getModelParamsFromName(gymName))
-  inputData = "%s/%s.csv" % (DATA_DIR, gymName.replace(" ", "_"))
-  runIoThroughNupic(inputData, model, gymName, plot)
+def runModel(roadName, plot=False):
+  print "Creating model from %s..." % roadName
+  model = createModel(getModelParamsFromName(roadName))
+  inputData = "%s/%s.csv" % (DATA_DIR, roadName.replace(" ", "_"))
+  runIoThroughNupic(inputData, model, roadName, plot)
 
 
 
@@ -124,7 +124,7 @@ if __name__ == "__main__":
   if len(args)>0:
     DATA_NAME = args[0]
   else:
-    DATA_NAME = "cleanTrafficData"
+    DATA_NAME = "cleanTrafficData10003"
 
   if "--plot" in args:
     plot = True

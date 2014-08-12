@@ -1,4 +1,4 @@
-timestamp,kw_energy_consumption,prediction
+timestamp,traffic_volume,prediction
 2011-03-14 00:00:00,180.0,180.0
 2011-03-14 01:00:00,125.0,125.0
 2011-03-14 02:00:00,96.0,96.0
