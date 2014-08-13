@@ -71,4 +71,4 @@ You can visualizing the quality of prediction by just plotting the predicted and
 
     ./analyPerformance.py
 
-![Results](https://github.com/ywcui1990/TrafficPrediction/blob/master/result/ErrorRateModified.pdf)
+![Results](https://github.com/ywcui1990/TrafficPrediction/blob/master/result/ErrorRateModified.png)

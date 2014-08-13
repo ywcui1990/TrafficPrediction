@@ -19,6 +19,17 @@
 # http://numenta.org/licenses/
 # ----------------------------------------------------------------------
 
+'''
+This script calculated the quality of prediction using a simple error metric
+
+The performance of CLA is compared with three other simple methods:
+(1) Naive shifter: predict t+1 based on data of to_datetime
+(2) Historical Average (Day time): predict based on historical average of
+																		that time of the day
+(3) Historical Average (Week-day time): predict based on historical average 
+														using both weekday and time of the day
+
+'''
 import pandas as pd 
 import numpy as np
 from pandas import DataFrame, Series
@@ -64,8 +75,8 @@ for i in range(len(datafiles)):
 	csvfile.close()
 
 	df = pd.read_csv(fileName)
-	if len(df)<500:
-		continue
+	# if len(df)<500:
+	# 	continue
 
 	df.columns = ['Start_Time','Count','Prediction']
 	df['Start_Time'] = pd.to_datetime(df['Start_Time'])
@@ -88,8 +99,6 @@ for i in range(len(datafiles)):
 	dfTrain = df[1:nTrain]
 	dfTest = df[nTrain:]
 
-	# dfTrain = df[1:len(df)]
-	# dfTest = df[1:len(df)]	
 	predictionDayAvg = pd.groupby(dfTrain["Count"],dfTrain['Hours']).mean()
 
 	predictionWeekDayAvg = pd.groupby(dfTrain["Count"],dfTrain['WeekdayHour']).mean()
@@ -164,7 +173,7 @@ width  =.35
 ind = np.arange(4)
 ax.set_xticks(ind+width)
 ax.set_xticklabels( ('Naive Shifter', 'Day Avg','Day-Week Avg', 'CLA') )
-ax.set_ylabel("Error Rate (%)")
+ax.set_ylabel("Deviation from measured (%)")
 plt.savefig('result/ErrorRate.pdf')
 # 
 # ind = np.arange(len(ErrorRates))
