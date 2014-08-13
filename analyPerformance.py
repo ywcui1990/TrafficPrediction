@@ -134,6 +134,8 @@ N = ErrorRatesAll.shape[0]
 
 MeanErrorRate = np.mean(ErrorRatesAll, axis=0)
 print MeanErrorRate
+
+# plot error for different prediction methods
 errorSEM = np.std(ErrorRatesAll,axis=0)/sqrt(N)
 plt.close('all')
 plt.figure()
