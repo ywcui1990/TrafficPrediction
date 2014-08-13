@@ -41,7 +41,7 @@ We used the swarm procedure in NuPIC to optimize model parameters. For more info
 
 To train CLA for a single recording station, you can use the swarm.py script
 
-    ./swarm.py "./data/cleanTrafficData10003.csv"
+    ./swarm.py "./data/cleanTrafficData10003.csv" 
 
 There is also a script, run_swarm.py that fit models for every recording station (in ./data/). To use the script, you can simply run
 
@@ -55,10 +55,20 @@ The parameters for the best models are saved in './model_params'. The previous s
 
 Now you have the parameters for the best models for each monitoring station. The next step is to make predictions using the CLA. To generating predictions for a single station, run
 
-    ./run.py "cleanTrafficData10003"
+    ./run.py "cleanTrafficData10003" [--plot]
+
+If '--plot' is not specified, the prediction will be wrote to the ./prediction directory. If '--plot' is specified, the script will attept to plot on screen using matplotlib (assuming it is installed)
 
 To generate predictions for all monitoring stations, run
     
     ./runAllModels.py 
 
-### 5. 
+Then all the predictions will be saved in the ./prediction directory
+
+### 5. Quantify prediction accuracy
+
+You can visualizing the quality of prediction by just plotting the predicted and measured volume count together (they should be located in ./prediction now). There is also a script that quantify the quality of prediction and compare it with several other simple methods. The result is shown in ./result/ErrorRate.pdf, and can be reproduced by running
+
+    ./analyPerformance.py
+
+![Results](https://github.com/ywcui1990/TrafficPrediction/blob/master/result/ErrorRateModified.pdf)

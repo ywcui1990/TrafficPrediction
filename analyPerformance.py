@@ -1,3 +1,24 @@
+# ----------------------------------------------------------------------
+# Numenta Platform for Intelligent Computing (NuPIC)
+# Copyright (C) 2013, Numenta, Inc.  Unless you have an agreement
+# with Numenta, Inc., for a separate license for this software code, the
+# following terms and conditions apply:
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3 as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see http://www.gnu.org/licenses.
+#
+# http://numenta.org/licenses/
+# ----------------------------------------------------------------------
+
 import pandas as pd 
 import numpy as np
 from pandas import DataFrame, Series
@@ -21,11 +42,11 @@ def calculateErrorRate(measured, predicted):
 	return errorRate
 
 
-datapath = './'
+datapath = './prediction/'
 datafiles = [ f for f in listdir(datapath) if isfile(join(datapath,f)) ]
 datafiles = datafiles[1:]
 
-datafiles = ['cleanTrafficData30283_out.csv']
+# datafiles = ['cleanTrafficData30291_out.csv']
 ErrorRatesAll = []
 
 for i in range(len(datafiles)):
@@ -34,7 +55,7 @@ for i in range(len(datafiles)):
 	else:
 		continue
 
-	fileName = datafiles[i]
+	fileName = datapath+datafiles[i]
 	# fileName = "cleanTrafficData10012_out.csv"
 	# fileName = "cleanTrafficData330378_out.csv"
 	csvfile = open(fileName)
@@ -55,13 +76,13 @@ for i in range(len(datafiles)):
 	k = lambda x: x.weekofyear
 	df['WeekofYear'] = df['Start_Time'].apply(k)
 	df['WeekdayHour'] = df['Weekday']*24 + df['Hours']
-	avgWeek = pd.groupby(df["Count"],df['WeekofYear']).sum()
-	avgWeek = avgWeek[1:len(avgWeek)-1]
-	plt.close('all')
-	plt.plot(avgWeek.index, avgWeek)
-	plt.xlabel(' Week of Year')
-	plt.ylabel(' Weekly Traffic Count ')
-	plt.savefig('seasonalPattern/'+fileName.split('_')[0]+'.pdf')
+	# avgWeek = pd.groupby(df["Count"],df['WeekofYear']).sum()
+	# avgWeek = avgWeek[1:len(avgWeek)-1]
+	# plt.close('all')
+	# plt.plot(avgWeek.index, avgWeek)
+	# plt.xlabel(' Week of Year')
+	# plt.ylabel(' Weekly Traffic Count ')
+	# plt.savefig('seasonalPattern/'+fileName.split('_')[0]+'.pdf')
 
 	nTrain = int(len(df)*.5)
 	dfTrain = df[1:nTrain]
@@ -102,9 +123,10 @@ for i in range(len(datafiles)):
 								calculateErrorRate(measured, predictDayWeekAvg),							
 								calculateErrorRate(measured, predictionCLA)]
 
-	predictionCLA = prediction.drop(['Day Avg','Day Week Avg','Shifter'],axis=1)
-	predictionCLA.xlim([800,1000])
-	plt.xlim([800, 1000])
+	# predictionCLA = prediction.drop(['Day Avg','Day Week Avg','Shifter'],axis=1)
+	# predictionCLA.plot()
+	# plt.xlim([750,950])
+	
 	# plt.close('all')
 	# plt.figure()
 	# ax = plt.subplot(111)
