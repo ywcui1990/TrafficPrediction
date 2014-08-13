@@ -46,6 +46,11 @@ Some monitoring stations also show a seasonal variation of traffic volume
 
 ![SeasonalVariation](https://github.com/ywcui1990/TrafficPrediction/blob/master/result/SmartTraffic_Presentation/Slide5.png)
 
+You can reproduce the exploratory analysis by running
+
+    ./exploratoryAnalysis.py
+
+It might be more fun if you can explore the data yourself. There are new patterns there yet to be discovered!
 
 ### 4. Train CLA to predict traffic data
 
@@ -79,7 +84,11 @@ Then all the predictions will be saved in the ./prediction directory
 
 ### 6. Quantify prediction accuracy
 
-You can visualizing the quality of prediction by just plotting the predicted and measured volume count together (they should be located in ./prediction now). There is also a script that quantify the quality of prediction and compare it with several other simple methods. The result is shown in ./result/ErrorRate.pdf, and can be reproduced by running
+You can visualizing the quality of prediction by just plotting the predicted and measured volume count together (they should be located in ./prediction now). Here is an example prediction of CLA. It accurately captured the "rush hour" during weekdays and lack of "rush hour" on weekends.
+
+![CLAPrediction](https://github.com/ywcui1990/TrafficPrediction/blob/master/result/CLAprediction.png)
+
+There is also a script that quantify the quality of prediction and compare it with several other simple methods. The result is shown in ./result/ErrorRate.pdf, and can be reproduced by running
 
     ./analyPerformance.py
 
