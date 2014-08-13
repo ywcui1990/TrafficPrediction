@@ -1,4 +1,4 @@
-# Smart traffic prediction with NuPIC
+# Traffic prediction with NuPIC
 
 The program in this folder used the Cortical Learning Algorithm (CLA) in the Numenta Platform for Intelligent Computing (NuPIC) to predict traffic volume data. For more information about NuPIC, please visit the [NuPIC wiki](https://github.com/numenta/nupic/wiki)
 
