@@ -6,7 +6,7 @@ The program in this folder used the Cortical Learning Algorithm (CLA) in the Num
 
 + [NuPIC](https://github.com/numenta/nupic/wiki)
 + pandas (for data cleaning)
-+ matplotlib (for exploratory data analysis)
++ matplotlib (for plotting)
 
 ## Program Phases
 
@@ -35,7 +35,19 @@ You can reproduce the data selection and cleaning procedures by running the scri
 
     ./dataPreProcess.py
 
-### 3. Train CLA to predict traffic data
+### 3. Exploratory Analysis
+
+Before running any algorithms, we did some exploratory analysis of the data. It is clear that  traffic data from different stations usually have distinct daily and weekly pattern:
+
+![WeeklyPattern](https://github.com/ywcui1990/TrafficPrediction/blob/master/result/SmartTraffic_Presentation/Slide4.png)
+
+
+Some monitoring stations also show a seasonal variation of traffic volume
+
+![SeasonalVariation](https://github.com/ywcui1990/TrafficPrediction/blob/master/result/SmartTraffic_Presentation/Slide5.png)
+
+
+### 4. Train CLA to predict traffic data
 
 We used the swarm procedure in NuPIC to optimize model parameters. For more information of the swarming algorithm, please visit this [wiki](https://github.com/numenta/nupic/wiki/Swarming-Algorithm). 
 
@@ -51,7 +63,7 @@ The parameters for the best models are saved in './model_params'. The previous s
 
     ./cleanup.py
 
-### 4. Make predictions with CLA
+### 5. Make predictions with CLA
 
 Now you have the parameters for the best models for each monitoring station. The next step is to make predictions using the CLA. To generating predictions for a single station, run
 
@@ -65,7 +77,7 @@ To generate predictions for all monitoring stations, run
 
 Then all the predictions will be saved in the ./prediction directory
 
-### 5. Quantify prediction accuracy
+### 6. Quantify prediction accuracy
 
 You can visualizing the quality of prediction by just plotting the predicted and measured volume count together (they should be located in ./prediction now). There is also a script that quantify the quality of prediction and compare it with several other simple methods. The result is shown in ./result/ErrorRate.pdf, and can be reproduced by running
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # ----------------------------------------------------------------------
 # Numenta Platform for Intelligent Computing (NuPIC)
 # Copyright (C) 2013, Numenta, Inc.  Unless you have an agreement
@@ -57,7 +58,7 @@ datapath = './prediction/'
 datafiles = [ f for f in listdir(datapath) if isfile(join(datapath,f)) ]
 datafiles = datafiles[1:]
 
-# datafiles = ['cleanTrafficData30291_out.csv']
+
 ErrorRatesAll = []
 
 for i in range(len(datafiles)):
@@ -67,16 +68,13 @@ for i in range(len(datafiles)):
 		continue
 
 	fileName = datapath+datafiles[i]
-	# fileName = "cleanTrafficData10012_out.csv"
-	# fileName = "cleanTrafficData330378_out.csv"
+
 	csvfile = open(fileName)
 	csvreader = csv.reader(csvfile, delimiter=',')
 	headline = csvreader.next()
 	csvfile.close()
 
 	df = pd.read_csv(fileName)
-	# if len(df)<500:
-	# 	continue
 
 	df.columns = ['Start_Time','Count','Prediction']
 	df['Start_Time'] = pd.to_datetime(df['Start_Time'])
@@ -87,24 +85,16 @@ for i in range(len(datafiles)):
 	k = lambda x: x.weekofyear
 	df['WeekofYear'] = df['Start_Time'].apply(k)
 	df['WeekdayHour'] = df['Weekday']*24 + df['Hours']
-	# avgWeek = pd.groupby(df["Count"],df['WeekofYear']).sum()
-	# avgWeek = avgWeek[1:len(avgWeek)-1]
-	# plt.close('all')
-	# plt.plot(avgWeek.index, avgWeek)
-	# plt.xlabel(' Week of Year')
-	# plt.ylabel(' Weekly Traffic Count ')
-	# plt.savefig('seasonalPattern/'+fileName.split('_')[0]+'.pdf')
 
 	nTrain = int(len(df)*.5)
 	dfTrain = df[1:nTrain]
 	dfTest = df[nTrain:]
 
+	# use historical average as predictor
 	predictionDayAvg = pd.groupby(dfTrain["Count"],dfTrain['Hours']).mean()
-
 	predictionWeekDayAvg = pd.groupby(dfTrain["Count"],dfTrain['WeekdayHour']).mean()
 
-	predictionWeekDayAvg = pd.groupby(dfTrain["Count"],dfTrain['WeekdayHour']).mean()
-
+	# generate prediction with different methdos	
 	measured = []
 	predictDayAvg = []
 	predictDayWeekAvg = []
@@ -124,30 +114,12 @@ for i in range(len(datafiles)):
 	predictionCLA = np.array(predictionCLA)	
 	predictedShifer = np.array(predictedShifer)	
 
-	prediction = pd.DataFrame(np.array((measured, predictDayAvg, predictDayWeekAvg, predictionCLA, predictedShifer)).T,
-		columns=['Measure','Day Avg', 'Day Week Avg','CLA', 'Shifter'])
-
+	# calculate error rate with different method
 	ErrorRates = [calculateErrorRate(measured, predictedShifer),
 								calculateErrorRate(measured, predictDayAvg),														
 								calculateErrorRate(measured, predictDayWeekAvg),							
 								calculateErrorRate(measured, predictionCLA)]
 
-	# predictionCLA = prediction.drop(['Day Avg','Day Week Avg','Shifter'],axis=1)
-	# predictionCLA.plot()
-	# plt.xlim([750,950])
-	
-	# plt.close('all')
-	# plt.figure()
-	# ax = plt.subplot(111)
-	# ax.plot(predictionWeekDayAvg)
-	# ax.set_ylabel('Hourly Count')
-
-	# ind = np.arange(7)*24+12
-	# ax.set_xticks(ind)
-	# ax.set_xticklabels( ('Mon','Tue','Wed','Thu','Fri','Sat','Sun') )
-
-	# # plt.title('Error Rate '+str(ErrorRates[2])+' '+str(str(ErrorRates[3])))
-	# plt.savefig('dayWeekPattern/'+fileName.split('_')[0]+'.pdf')
 
 	ErrorRatesAll.append(ErrorRates)
 
@@ -166,7 +138,7 @@ errorSEM = np.std(ErrorRatesAll,axis=0)/sqrt(N)
 plt.close('all')
 plt.figure()
 ax = plt.subplot(111)
-# plt.boxplot(ErrorRatesAll)
+
 ind = np.arange(4)
 ax.bar(ind, MeanErrorRate, color='k', yerr=errorSEM)
 width  =.35
@@ -176,5 +148,4 @@ ax.set_xticklabels( ('Naive Shifter', 'Day Avg','Day-Week Avg', 'CLA') )
 ax.set_ylabel("Deviation from measured (%)")
 plt.savefig('result/ErrorRate.pdf')
 # 
-# ind = np.arange(len(ErrorRates))
-# ax.bar(ind, ErrorRates, color='k')
+
